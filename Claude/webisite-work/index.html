@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyclery Solutions 570 — Expert Bike Repair & Custom Builds</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:      #0b0720;
+            --bg2:     #130c30;
+            --bg3:     #1a1240;
+            --accent:  #FFB800;
+            --accent2: #e0a200;
+            --white:   #ffffff;
+            --muted:   #9988cc;
+            --border:  rgba(180,140,255,0.1);
+            --card-bg: rgba(180,140,255,0.04);
+            --radius:  12px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 6%;
+            background: rgba(11,7,32,0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.3s;
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.35rem;
+            letter-spacing: 2px;
+            color: var(--white);
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--white); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.65rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary { background: var(--accent); color: #000; }
+        .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .btn-outline:hover {
+            border-color: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.05);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px;
+        }
+        .hamburger span {
+            display: block;
+            width: 24px; height: 2px;
+            background: var(--white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ── MOBILE MENU ── */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(8,8,15,0.98);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+        .mobile-menu a {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3rem;
+            color: var(--white);
+            text-decoration: none;
+            letter-spacing: 3px;
+            transition: color 0.2s;
+        }
+        .mobile-menu a:hover { color: var(--accent); }
+        .mobile-menu.open { display: flex; }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 5rem;
+        }
+
+        .hero-left {
+            padding: 5rem 0 5rem 8%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-right {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .hero-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            filter: brightness(0.65) saturate(0.85);
+        }
+        .hero-right::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, var(--bg) 0%, transparent 40%);
+            z-index: 1;
+        }
+        .hero-right::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, var(--bg) 0%, transparent 30%);
+            z-index: 1;
+        }
+
+        /* subtle dot-grid behind hero text */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(160,100,255,0.08) 1px, transparent 1px);
+            background-size: 36px 36px;
+            z-index: 0;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(255,184,0,0.1);
+            border: 1px solid rgba(255,184,0,0.25);
+            color: var(--accent);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+        .hero-badge-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.4; transform: scale(1.4); }
+        }
+
+        .hero h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(4.5rem, 8vw, 8rem);
+            line-height: 0.93;
+            letter-spacing: 2px;
+            margin-bottom: 1.75rem;
+        }
+        .hero h1 .accent { color: var(--accent); }
+
+        .hero-sub {
+            font-size: 1.1rem;
+            color: var(--muted);
+            max-width: 440px;
+            line-height: 1.75;
+            margin-bottom: 2.75rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .hero-cta .btn {
+            padding: 0.9rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        /* ── STATS BAR ── */
+        .stats-bar {
+            background: var(--bg3);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 2.25rem 6%;
+        }
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+            flex-wrap: wrap;
+        }
+        .stat-item { text-align: center; }
+        .stat-number {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 3.25rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            display: block;
+            line-height: 1;
+        }
+        .stat-label {
+            font-size: 0.725rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-weight: 600;
+            margin-top: 0.25rem;
+            display: block;
+        }
+
+        /* ── SHARED SECTION STYLES ── */
+        section { padding: 6.5rem 6%; }
+
+        .section-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+            display: block;
+        }
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.75rem, 5vw, 4.5rem);
+            letter-spacing: 1px;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        .section-sub {
+            color: var(--muted);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        /* ── SERVICES ── */
+        .services { background: var(--bg); }
+
+        .services-header {
+            text-align: center;
+            margin-bottom: 3.5rem;
+        }
+        .services-header .section-sub {
+            max-width: 520px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.35s;
+        }
+        .service-card:hover {
+            border-color: rgba(245,166,35,0.35);
+            transform: translateY(-5px);
+        }
+
+        .service-img-wrap { overflow: hidden; height: 200px; }
+        .service-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.7) saturate(0.8);
+            transition: filter 0.35s, transform 0.45s;
+            display: block;
+        }
+        .service-card:hover .service-img {
+            filter: brightness(0.85) saturate(1);
+            transform: scale(1.06);
+        }
+
+        .service-body { padding: 1.5rem; }
+        .service-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        .service-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+        .service-price {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.5rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+            white-space: nowrap;
+            margin-left: 1rem;
+        }
+        .service-desc {
+            font-size: 0.875rem;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        /* ── ABOUT ── */
+        .about { background: var(--bg2); }
+
+        .about-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-image-wrap {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+        .about-image-wrap img {
+            width: 100%;
+            height: 520px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.8);
+        }
+        .about-image-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            pointer-events: none;
+        }
+
+        .about-float {
+            position: absolute;
+            bottom: 1.75rem;
+            left: 1.75rem;
+            background: rgba(8,8,15,0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.1rem 1.4rem;
+            z-index: 2;
+        }
+        .about-float .big {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2.75rem;
+            color: var(--accent);
+            line-height: 1;
+            display: block;
+        }
+        .about-float .small {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .about-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin: 1.75rem 0 2.5rem;
+        }
+        .about-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+        .about-list li::before {
+            content: '✓';
+            width: 22px; height: 22px;
+            background: rgba(255,184,0,0.12);
+            color: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        /* ── FAQ ── */
+        .faq { background: var(--bg); }
+
+        .faq-inner {
+            max-width: 780px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .faq-inner .section-sub {
+            max-width: 540px;
+            margin: 0 auto 3rem;
+        }
+        .faq-list { text-align: left; display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .faq-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+        .faq-item.open { border-color: rgba(245,166,35,0.3); }
+
+        .faq-q {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+        }
+        .faq-icon {
+            width: 26px; height: 26px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            color: var(--accent);
+            transition: transform 0.35s;
+        }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s;
+            padding: 0 1.5rem;
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.75;
+        }
+        .faq-item.open .faq-a {
+            max-height: 200px;
+            padding-bottom: 1.35rem;
+        }
+
+        /* ── CONTACT ── */
+        .contact { background: var(--bg2); }
+
+        .contact-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .contact-icon {
+            width: 46px; height: 46px;
+            background: rgba(255,184,0,0.08);
+            border: 1px solid rgba(255,184,0,0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .contact-item h4 {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+        .contact-item p, .contact-item a {
+            font-size: 0.95rem;
+            color: var(--white);
+            text-decoration: none;
+            line-height: 1.5;
+        }
+        .contact-item a:hover { color: var(--accent); }
+
+        .hours-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            margin-bottom: 1.35rem;
+        }
+        .hours-grid { display: flex; flex-direction: column; gap: 0.65rem; }
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            padding-bottom: 0.65rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .hours-row:last-child { border-bottom: none; }
+        .hours-row .day { color: var(--muted); }
+        .hours-row .time { color: var(--white); font-weight: 500; }
+
+        .contact-photo {
+            margin-top: 2rem;
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .contact-photo img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+            filter: brightness(0.7) saturate(0.8);
+            transition: filter 0.3s;
+        }
+        .contact-photo:hover img { filter: brightness(0.85) saturate(1); }
+
+        /* ── SUBSCRIBE ── */
+        .subscribe {
+            background: var(--bg3);
+            text-align: center;
+            padding: 5rem 6%;
+        }
+        .subscribe-inner { max-width: 560px; margin: 0 auto; }
+
+        .subscribe h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.75rem, 5vw, 4.5rem);
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+        .subscribe p { color: var(--muted); margin-bottom: 2rem; font-size: 0.95rem; }
+
+        .subscribe-form {
+            display: flex;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.025);
+        }
+        .subscribe-form input {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 0.9rem 1.25rem;
+            color: var(--white);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .subscribe-form input::placeholder { color: var(--muted); }
+        .subscribe-form button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            padding: 0.9rem 1.75rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+        .subscribe-form button:hover { background: var(--accent2); }
+        .subscribe-success {
+            display: none;
+            color: var(--accent);
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--bg);
+            border-top: 1px solid var(--border);
+            padding: 2rem 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            color: var(--white);
+        }
+        .footer-logo span { color: var(--accent); }
+        footer p { font-size: 0.8rem; color: var(--muted); }
+        footer a { color: #555; text-decoration: none; }
+        footer a:hover { color: var(--muted); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-left { padding: 7rem 6% 4rem; max-width: 640px; }
+            .hero-right {
+                position: absolute;
+                inset: 0;
+                height: 100%;
+                opacity: 0.35;
+                z-index: 0;
+            }
+            .hero-right::before {
+                background: linear-gradient(to right, var(--bg) 0%, rgba(8,8,15,0.6) 100%);
+            }
+            .about-inner,
+            .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+            .about-image-wrap img { height: 360px; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta { display: none; }
+            .hamburger { display: flex; }
+            .stats-grid { gap: 2.5rem; }
+            section { padding: 4.5rem 5%; }
+        }
+
+        @media (max-width: 560px) {
+            .hero-cta .btn { width: 100%; justify-content: center; }
+            .subscribe-form { flex-direction: column; }
+            .subscribe-form button { border-radius: 0 0 8px 8px; width: 100%; }
+        }
+
+        /* ── STATS HORIZONTAL SCROLL ── */
+        .stats-bar { overflow: hidden; }
+        .stats-grid { will-change: transform; }
+
+        /* ── NAV UNDERLINE SWEEPS ── */
+        .nav-logo { position: relative; }
+        .nav-logo::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0; right: 0;
+            height: 1.5px;
+            background: var(--accent);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.07s;
+        }
+        .nav-logo:hover::after { transform: scaleX(1); }
+
+        .nav-cta { position: relative; }
+        .nav-cta::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 1.5rem; right: 1.5rem;
+            height: 1.5px;
+            background: currentColor;
+            opacity: 0.45;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.07s;
+        }
+        .nav-cta:hover::after { transform: scaleX(1); }
+
+        /* ── HERO BUTTON UNDERLINE SWEEP ── */
+        .hero-cta .btn { position: relative; }
+        .hero-cta .btn::after {
+            content: '';
+            position: absolute;
+            bottom: 7px;
+            left: 2rem;
+            right: 2rem;
+            height: 1.5px;
+            background: currentColor;
+            opacity: 0.45;
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.07s;
+        }
+        .hero-cta .btn:hover::after { transform: scaleX(1); }
+
+        /* ── TYPEWRITER CURSOR ── */
+        .type-cursor {
+            color: var(--accent);
+            animation: type-blink 0.7s step-end infinite;
+        }
+        @keyframes type-blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0; }
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transition: opacity 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .reveal-left  { transform: translateX(-70px); }
+        .reveal-right { transform: translateX(70px); }
+        .reveal.visible { opacity: 1; transform: translateX(0); }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <a href="#" class="nav-logo">Cyclery <span>Solutions</span> 570</a>
+    <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="tel:5705948103" class="btn btn-primary nav-cta">570-594-8103</a>
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+    <a href="tel:5705948103" class="btn btn-primary" style="font-family:'Inter',sans-serif;font-size:1rem;margin-top:0.5rem;">570-594-8103</a>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="home">
+    <div class="hero-left">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Danville, PA &mdash; Walk-ins Welcome
+        </div>
+        <h1>Expert<br><span class="accent">Bike Repair</span><br>&amp; Custom<br>Builds</h1>
+        <p class="hero-sub">Danville's go-to bike shop for tune-ups, repairs, custom wheel building, and suspension service. Over 16 years of keeping riders rolling.</p>
+        <div class="hero-cta">
+            <a href="tel:5705948103" class="btn btn-primary">&#128222; Call or SMS</a>
+            <a href="#services" class="btn btn-outline">View Services</a>
+        </div>
+    </div>
+    <div class="hero-right">
+        <img src="https://images.unsplash.com/photo-1562615193-cbeef074a501?auto=format&fit=crop&w=1200&q=80" alt="Bike repair workshop" loading="eager">
+    </div>
+</div>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+    <div class="stats-grid">
+        <div class="stat-item">
+            <span class="stat-number">16+</span>
+            <span class="stat-label">Years of Experience</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">500+</span>
+            <span class="stat-label">Bikes Serviced</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">5&#9733;</span>
+            <span class="stat-label">Customer Rating</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-number">$35</span>
+            <span class="stat-label">Walk-in Starts At</span>
+        </div>
+    </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="services-header reveal reveal-right">
+        <span class="section-tag">What We Offer</span>
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-sub">From quick walk-in fixes to full custom builds — every bike that comes through our door gets our full attention.</p>
+    </div>
+    <div class="services-grid reveal reveal-right" style="transition-delay:0.12s">
+
+        <div class="service-card">
+            <div class="service-img-wrap">
+                <img class="service-img"
+                     src="https://images.unsplash.com/photo-1675798226758-a2e241b376fb?auto=format&fit=crop&w=600&q=80"
+                     alt="Walk-in bike repair" loading="lazy">
+            </div>
+            <div class="service-body">
+                <div class="service-top">
+                    <h3 class="service-name">Walk-In / Shop Minimum</h3>
+                    <span class="service-price">$35.99</span>
+                </div>
+                <p class="service-desc">Drop your bike and go. Flat $35.99 plus parts — additional labor billed hourly for jobs over one hour.</p>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-img-wrap">
+                <img class="service-img"
+                     src="https://images.unsplash.com/photo-1676531356064-0a527118baf4?auto=format&fit=crop&w=600&q=80"
+                     alt="Full tune-up" loading="lazy">
+            </div>
+            <div class="service-body">
+                <div class="service-top">
+                    <h3 class="service-name">Full Premium Tune-Up</h3>
+                    <span class="service-price">$89.99</span>
+                </div>
+                <p class="service-desc">Deep clean, degrease, wheel true &amp; lube, full adjustment. Parts are additional. The complete overhaul your bike deserves.</p>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-img-wrap">
+                <img class="service-img"
+                     src="https://images.unsplash.com/photo-1675798227643-da319f8ee8f7?auto=format&fit=crop&w=600&q=80"
+                     alt="Clean and lube service" loading="lazy">
+            </div>
+            <div class="service-body">
+                <div class="service-top">
+                    <h3 class="service-name">Clean &amp; Lube</h3>
+                    <span class="service-price">$25.99</span>
+                </div>
+                <p class="service-desc">Essential maintenance — clean and lube all moving parts to keep your drivetrain smooth and extend component life.</p>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <div class="service-img-wrap">
+                <img class="service-img"
+                     src="https://images.unsplash.com/photo-1673870861521-626b40f9657e?auto=format&fit=crop&w=600&q=80"
+                     alt="Custom bike build" loading="lazy">
+            </div>
+            <div class="service-body">
+                <div class="service-top">
+                    <h3 class="service-name">Custom Bike Build</h3>
+                    <span class="service-price">Quote</span>
+                </div>
+                <p class="service-desc">Custom wheel building, full frame builds, and suspension servicing tailored to your ride style. Call for pricing.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="about-inner">
+        <div class="about-image-wrap reveal reveal-left">
+            <img src="https://images.unsplash.com/photo-1607109181641-74f8e7f4eb11?auto=format&fit=crop&w=800&q=80"
+                 alt="Bike mechanic at work" loading="lazy">
+            <div class="about-float">
+                <span class="big">16+</span>
+                <span class="small">Years in Business</span>
+            </div>
+        </div>
+        <div class="about-text reveal reveal-right">
+            <span class="section-tag">About Us</span>
+            <h2 class="section-title">Cyclery Solutions 570</h2>
+            <p class="section-sub">With over 16 years in the bike repair industry, our skilled technicians specialize in everything from quick fixes to full custom builds. We ensure every bike receives the highest level of care and attention to detail.</p>
+            <ul class="about-list">
+                <li>Walk-ins always welcome during business hours</li>
+                <li>Custom wheel building &amp; suspension servicing</li>
+                <li>Road, mountain, hybrid, and kids' bikes</li>
+                <li>Transparent pricing — no surprise charges</li>
+                <li>Locally owned &amp; operated in Danville, PA</li>
+            </ul>
+            <a href="tel:5705948103" class="btn btn-primary">Book a Service Call</a>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+    <div class="faq-inner reveal reveal-left">
+        <span class="section-tag">FAQ</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-sub">Can't find what you need? Email us at <a href="mailto:Cyclerysolutions@gmail.com" style="color:var(--accent);text-decoration:none;">Cyclerysolutions@gmail.com</a></p>
+        <div class="faq-list">
+
+            <div class="faq-item">
+                <button class="faq-q">
+                    What types of bikes do you repair?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-a">We service all types — road bikes, mountain bikes, hybrids, BMX, e-bikes, and kids' bikes. If it has wheels, we can work on it.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-q">
+                    How much do bike repairs cost?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-a">Our shop minimum is $35.99 plus parts. A full premium tune-up is $89.99. A clean &amp; lube is $25.99. Custom builds are quoted individually — call or text us for an estimate.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-q">
+                    How often should I bring my bike in for maintenance?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-a">We recommend a basic tune-up once a year for casual riders and every 3–6 months for those putting serious miles in. Regular clean &amp; lube extends the time between full services.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-q">
+                    Do I need an appointment?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-a">No appointment needed — walk-ins are always welcome during business hours. For custom builds or larger jobs, we recommend calling ahead so we can set aside the time.</div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div class="contact-inner">
+        <div class="reveal reveal-left">
+            <span class="section-tag">Get In Touch</span>
+            <h2 class="section-title">Visit Us</h2>
+            <p class="section-sub">Stop by, call, or text — we love our customers and we're always happy to help with any question.</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">&#128205;</div>
+                    <div>
+                        <h4>Address</h4>
+                        <p>350 Mill Street<br>Danville, PA, USA</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">&#128222;</div>
+                    <div>
+                        <h4>Phone / SMS</h4>
+                        <a href="tel:5705948103">570-594-8103</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">&#9993;&#65039;</div>
+                    <div>
+                        <h4>Email</h4>
+                        <a href="mailto:Cyclerysolutions@gmail.com">Cyclerysolutions@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="reveal reveal-right">
+            <h3 class="hours-title">Hours</h3>
+            <div class="hours-grid">
+                <div class="hours-row"><span class="day">Monday</span><span class="time">9:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="day">Tuesday</span><span class="time">9:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="day">Wednesday</span><span class="time">9:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="day">Thursday</span><span class="time">9:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="day">Friday</span><span class="time">9:00 AM – 6:00 PM</span></div>
+                <div class="hours-row"><span class="day">Saturday</span><span class="time">10:00 AM – 4:00 PM</span></div>
+                <div class="hours-row"><span class="day">Sunday</span><span class="time">Closed</span></div>
+            </div>
+            <div class="contact-photo">
+                <img src="https://images.unsplash.com/photo-1671790639553-43973054c51e?auto=format&fit=crop&w=700&q=80"
+                     alt="Inside the bike shop" loading="lazy">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SUBSCRIBE -->
+<section class="subscribe">
+    <div class="subscribe-inner">
+        <span class="section-tag">Stay In The Loop</span>
+        <h2>Subscribe</h2>
+        <p>Sign up to hear from us about specials, sales, and upcoming events.</p>
+        <form class="subscribe-form" id="subscribeForm">
+            <input type="email" placeholder="Enter your email address" required>
+            <button type="submit">SIGN UP</button>
+        </form>
+        <p class="subscribe-success" id="subscribeSuccess">&#10003; You're on the list — thanks!</p>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <span class="footer-logo">Cyclery <span>Solutions</span> 570</span>
+    <p>&#169; 2026 Cyclery Solutions 570 &middot; 350 Mill Street, Danville, PA</p>
+    <p>Images via <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a></p>
+</footer>
+
+<script>
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.style.background = window.scrollY > 60
+            ? 'rgba(11,7,32,0.97)'
+            : 'rgba(11,7,32,0.7)';
+    }, { passive: true });
+
+    // Hamburger / mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    mobileMenu.querySelectorAll('a').forEach(a =>
+        a.addEventListener('click', () => mobileMenu.classList.remove('open'))
+    );
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const item = btn.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
+        });
+    });
+
+    // Subscribe form
+    document.getElementById('subscribeForm').addEventListener('submit', e => {
+        e.preventDefault();
+        e.target.style.display = 'none';
+        document.getElementById('subscribeSuccess').style.display = 'block';
+    });
+
+    // Stats horizontal scroll parallax
+    (function () {
+        const bar  = document.querySelector('.stats-bar');
+        const grid = document.querySelector('.stats-grid');
+        function update() {
+            const rect     = bar.getBoundingClientRect();
+            const total    = window.innerHeight + rect.height;
+            const progress = (window.innerHeight - rect.top) / total; // 0→1 as bar scrolls through viewport
+            const shift    = (0.5 - progress) * window.innerWidth * 1.2;
+            grid.style.transform = `translateX(${shift}px)`;
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+    })();
+
+    // Typewriter hero heading
+    (function () {
+        const h1 = document.querySelector('.hero h1');
+        const segments = [
+            { text: 'Expert',           accent: false },
+            { text: '\n',               accent: false },
+            { text: 'Bike Repair',      accent: true  },
+            { text: '\n& Custom\nBuilds', accent: false },
+        ];
+        const chars = [];
+        segments.forEach(seg => {
+            for (const ch of seg.text) chars.push({ ch, accent: seg.accent });
+        });
+
+        function buildHTML(arr, showCursor) {
+            let html = '', inAccent = false;
+            arr.forEach(({ ch, accent }) => {
+                if (accent && !inAccent)  { html += '<span class="accent">'; inAccent = true; }
+                if (!accent && inAccent)  { html += '</span>'; inAccent = false; }
+                html += ch === '\n' ? '<br>' : ch === '&' ? '&amp;' : ch;
+            });
+            if (inAccent) html += '</span>';
+            if (showCursor) html += '<span class="type-cursor">|</span>';
+            return html;
+        }
+
+        h1.style.minHeight = h1.offsetHeight + 'px';
+        h1.innerHTML = '';
+        const typed = [];
+        let i = 0;
+
+        function tick() {
+            typed.push(chars[i++]);
+            const more = i < chars.length;
+            h1.innerHTML = buildHTML(typed, more);
+            if (more) setTimeout(tick, Math.random() * 35 + 45);
+        }
+
+        setTimeout(tick, 300);
+    })();
+
+    // Scroll reveal
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+</body>
+</html>
